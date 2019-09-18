@@ -1,6 +1,6 @@
 package biz.oneilindustries.dao;
 
-import biz.oneilindustries.hibrenate.HibernateConfig;
+import biz.oneilindustries.config.HibernateConfig;
 import biz.oneilindustries.hibrenate.entity.User;
 import java.util.List;
 import org.hibernate.Session;

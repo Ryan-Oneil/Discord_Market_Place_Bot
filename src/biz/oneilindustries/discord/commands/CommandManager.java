@@ -13,6 +13,7 @@ public class CommandManager {
         commands.add(new Details());
         commands.add(new Verify());
         commands.add(new UnVerify());
+        commands.add(new Users());
     }
 
     public Command isCommand(String name) {
