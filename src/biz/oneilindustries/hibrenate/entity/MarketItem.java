@@ -26,18 +26,21 @@ public class MarketItem {
 
     private String description;
 
+    private String image;
+
     private boolean sold;
 
     public MarketItem() {
     }
 
     public MarketItem(boolean enabled, String ownerID, String item, int price, String description,
-        boolean sold) {
+        String image, boolean sold) {
         this.enabled = enabled;
         this.ownerID = ownerID;
         this.item = item;
         this.price = price;
         this.description = description;
+        this.image = image;
         this.sold = sold;
     }
 
@@ -95,5 +98,13 @@ public class MarketItem {
 
     public void setSold(boolean sold) {
         this.sold = sold;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

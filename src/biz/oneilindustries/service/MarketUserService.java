@@ -22,6 +22,15 @@ public class MarketUserService {
         return user;
     }
 
+    public User getUserByDiscordUUID(String uuid) {
+
+        User user = userDAO.getUserByDiscordID(uuid);
+
+        userDAO.close();
+
+        return user;
+    }
+
     public List<User> getUsers() {
 
         List<User> users = userDAO.getUsers();
