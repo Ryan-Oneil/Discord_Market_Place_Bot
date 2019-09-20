@@ -26,15 +26,19 @@ public class MarketItem {
 
     private String description;
 
+    private boolean sold;
+
     public MarketItem() {
     }
 
-    public MarketItem(boolean enabled, String ownerID, String item, int price, String description) {
+    public MarketItem(boolean enabled, String ownerID, String item, int price, String description,
+        boolean sold) {
         this.enabled = enabled;
         this.ownerID = ownerID;
         this.item = item;
         this.price = price;
         this.description = description;
+        this.sold = sold;
     }
 
     public int getId() {
@@ -83,5 +87,13 @@ public class MarketItem {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isSold() {
+        return sold;
+    }
+
+    public void setSold(boolean sold) {
+        this.sold = sold;
     }
 }

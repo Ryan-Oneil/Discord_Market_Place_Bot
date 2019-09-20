@@ -16,17 +16,23 @@ public class UserDAO {
 
     public UserDAO() {
         sessionFactory = HibernateConfig.getSessionFactory();
-        session = sessionFactory.openSession();
+        session = sessionFactory.getCurrentSession();
+        transaction = session.beginTransaction();
     }
 
     private void openSession() {
-        if (sessionFactory.isClosed() || !session.isOpen()) {
-            sessionFactory = HibernateConfig.getSessionFactory();
-            session = sessionFactory.openSession();
+        if (!session.isOpen()) {
+            session = sessionFactory.getCurrentSession();
+            transaction = session.beginTransaction();
         }
     }
 
+    public void close() {
+        session.close();
+    }
+
     public List getUsers() {
+        openSession();
 
         Query query = session.createQuery("from User");
 
@@ -34,6 +40,8 @@ public class UserDAO {
     }
 
     public User getUserBySteamID(String userSteamID) {
+        openSession();
+
         Query query= session.
             createQuery("from User where steamID=:userSteamID");
         query.setParameter("userSteamID", userSteamID);
@@ -41,6 +49,8 @@ public class UserDAO {
     }
 
     public User getUserByDiscordID(String userDiscordID) {
+        openSession();
+
         Query query= session.
             createQuery("from User where discordID=:userDiscordID");
         query.setParameter("userDiscordID", userDiscordID);
@@ -50,29 +60,15 @@ public class UserDAO {
     public void saveUser(User user) {
         openSession();
 
-        transaction = session.beginTransaction();
-
         session.saveOrUpdate(user);
-        commit();
+        transaction.commit();
     }
 
     public void deleteUser(User user) {
         openSession();
 
-        transaction = session.beginTransaction();
-
         session.delete(user);
 
-        commit();
-    }
-
-    private void commit() {
         transaction.commit();
-        close();
     }
-
-    public void close() {
-        session.close();
-    }
-
 }
