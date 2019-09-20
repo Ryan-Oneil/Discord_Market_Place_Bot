@@ -1,9 +1,10 @@
 package biz.oneilindustries.discord.commands;
 
-import biz.oneilindustries.dao.UserDAO;
 import biz.oneilindustries.discord.DiscordManager;
 import biz.oneilindustries.discord.Rank;
+import biz.oneilindustries.exceptions.UserRegistrationError;
 import biz.oneilindustries.hibrenate.entity.User;
+import biz.oneilindustries.service.MarketUserService;
 
 public class Register extends Command {
 
@@ -20,37 +21,26 @@ public class Register extends Command {
     @Override
     public String executeCommand(String[] args, String[] userNameDetails) {
         String userID = userNameDetails[userNameDetails.length - 1];
+        String userSteamID = userNameDetails[steamArgIndex];
 
-        UserDAO userDAO = new UserDAO();
-        User user = userDAO.getUserBySteamID(args[this.steamArgIndex]);
-        User discordID = userDAO.getUserByDiscordID(userID);
-
-        //Checks if the user is already registered
-        if (user != null) {
-            if (user.isEnabled()) {
-                return "Already Registered";
-            }
-            return "Please wait till an admin approves your account";
-        }
-
-        if (discordID != null) {
-            return "This discord account is already registered with another steamID";
-        }
+        MarketUserService marketUserService = new MarketUserService();
 
         try {
-            user = new User(args[1],userID, args[2], args[3], Integer.valueOf(args[4]), Integer.valueOf(args[5]),false);
+            User user = new User(userSteamID,userID, args[2], args[3], Integer.valueOf(args[4]), Integer.valueOf(args[5]),false);
+
+            try {
+                marketUserService.registerUser(user);
+            }catch (UserRegistrationError e) {
+                return e.getMessage();
+            }
         }catch (NumberFormatException e) {
             return "Bank account and phone number must be numbers only. Please try again";
         }
 
-        userDAO.saveUser(user);
-
-        userDAO.close();
-
         DiscordManager discordManager = new DiscordManager();
 
         discordManager.sendChannelMessage("598478774819880981", Rank.getRequiredDiscordRole("ceo").getAsMention() + " " + userNameDetails[0] + " has registered and needs to be manually verified."
-            + "\nUse !details " + user.getSteamID() + " for more information");
+            + "\nUse !details " + userSteamID + " for more information");
 
         return ("Your account has been registered. An admin will need to manually verify it before you can post listings");
     }

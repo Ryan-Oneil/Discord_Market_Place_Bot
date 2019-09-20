@@ -1,7 +1,7 @@
 package biz.oneilindustries.discord.commands;
 
-import biz.oneilindustries.dao.UserDAO;
 import biz.oneilindustries.hibrenate.entity.User;
+import biz.oneilindustries.service.MarketUserService;
 
 public class Details extends Command{
 
@@ -20,9 +20,9 @@ public class Details extends Command{
 
         String steamID = args[steamArgIndex];
 
-        UserDAO userDAO = new UserDAO();
+        MarketUserService marketUserService = new MarketUserService();
 
-        User user = userDAO.getUserBySteamID(steamID);
+        User user = marketUserService.getUserBySteamID(steamID);
 
         if (user == null) {
             return "This steamID isn't registered to a user";

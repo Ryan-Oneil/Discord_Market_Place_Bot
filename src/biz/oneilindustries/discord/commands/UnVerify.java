@@ -1,8 +1,8 @@
 package biz.oneilindustries.discord.commands;
 
-import biz.oneilindustries.dao.UserDAO;
 import biz.oneilindustries.discord.DiscordManager;
 import biz.oneilindustries.hibrenate.entity.User;
+import biz.oneilindustries.service.MarketUserService;
 
 public class UnVerify extends Command {
 
@@ -18,19 +18,9 @@ public class UnVerify extends Command {
 
     @Override
     public String executeCommand(String[] args, String[] userNameDetails) {
+        MarketUserService marketUserService = new MarketUserService();
 
-        UserDAO userDAO = new UserDAO();
-        User user = userDAO.getUserBySteamID(args[this.steamArgIndex]);
-
-        if (user == null) {
-            return "SteamID not found";
-        }
-
-        user.setEnabled(false);
-
-        userDAO.saveUser(user);
-
-        userDAO.close();
+        User user = marketUserService.unVerifyUser(args[steamArgIndex]);
 
         DiscordManager discordManager = new DiscordManager();
 

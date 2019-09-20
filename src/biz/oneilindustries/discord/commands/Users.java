@@ -1,7 +1,7 @@
 package biz.oneilindustries.discord.commands;
 
-import biz.oneilindustries.dao.UserDAO;
 import biz.oneilindustries.hibrenate.entity.User;
+import biz.oneilindustries.service.MarketUserService;
 import java.util.List;
 
 public class Users extends Command {
@@ -19,9 +19,9 @@ public class Users extends Command {
     @Override
     public String executeCommand(String[] args, String[] userNameDetails) {
 
-        UserDAO userDAO = new UserDAO();
+        MarketUserService marketUserService = new MarketUserService();
 
-        List<User> users = userDAO.getUsers();
+        List<User> users = marketUserService.getUsers();
 
         StringBuilder message = new StringBuilder("Name\t\tEnabled\tSteamID");
 
