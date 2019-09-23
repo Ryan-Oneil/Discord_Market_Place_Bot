@@ -17,6 +17,7 @@ public class CommandManager {
         commands.add(new Sell());
         commands.add(new InActive());
         commands.add(new Item());
+        commands.add(new Items());
     }
 
     public Command isCommand(String name) {
