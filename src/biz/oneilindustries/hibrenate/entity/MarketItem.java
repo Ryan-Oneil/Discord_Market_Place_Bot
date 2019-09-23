@@ -107,4 +107,14 @@ public class MarketItem {
     public void setImage(String image) {
         this.image = image;
     }
+
+    @Override
+    public String toString() {
+        return "MarketItem{" +
+            "id=" + id +
+            ", item='" + item + '\'' +
+            ", price=" + price +
+            ", description='" + description + '\'' +
+            '}';
+    }
 }

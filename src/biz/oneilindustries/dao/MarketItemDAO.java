@@ -57,6 +57,15 @@ public class MarketItemDAO {
         return query.getResultList();
     }
 
+    public List<MarketItem> getItemsByStatus(boolean enabled) {
+        openSession();
+
+        Query query = session.createQuery("from MarketItem where enabled=:enabled");
+        query.setParameter("enabled", enabled);
+
+        return query.getResultList();
+    }
+
     public MarketItem getItem(int id) {
         openSession();
 

@@ -14,6 +14,9 @@ public class CommandManager {
         commands.add(new Verify());
         commands.add(new UnVerify());
         commands.add(new Users());
+        commands.add(new Sell());
+        commands.add(new InActive());
+        commands.add(new Item());
     }
 
     public Command isCommand(String name) {

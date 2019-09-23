@@ -31,8 +31,8 @@ public class DiscordCommandEvent {
 
         //Determines if the command exists. If not displays help
         if (command != null) {
-            //Holds the user's name and unique id and the service the command was called from
-            String[] usernameDetails = {message.getAuthor().getName(), message.getMessage().getAuthor().getId()};
+            //Holds the user's name and unique id and the channel the command was called from
+            String[] usernameDetails = {message.getAuthor().getName(), message.getMessage().getAuthor().getId(), message.getChannel().getId()};
 
             //Runs the command and gets return message if the command returns one
             String returnMessage = command.run(invokerRoles,commandDetails,usernameDetails);
